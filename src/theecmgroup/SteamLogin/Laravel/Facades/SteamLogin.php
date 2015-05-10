@@ -1,10 +1,11 @@
 <?php
-namespace Ehesp\SteamLogin\Laravel\Facades;
+
+namespace theecmgroup\SteamLogin\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class SteamLogin extends Facade
-{
+class SteamLogin extends Facade {
+
     /**
      * Get the registered name of the component.
      *
@@ -13,4 +14,5 @@ class SteamLogin extends Facade
     protected static function getFacadeAccessor() {
         return 'steamlogin';
     }
+
 }

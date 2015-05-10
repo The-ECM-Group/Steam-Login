@@ -13,7 +13,7 @@ class SteamLoginServiceProvider extends ServiceProvider {
      */
     public function register() {
         $this->app->bind('theecmgroup\SteamLogin\SteamLogin', function($app) {
-            return new theecmgroup\SteamLogin\SteamLogin();
+            return new TheECMGroup\SteamLogin\SteamLogin();
         });
     }
 
@@ -23,7 +23,7 @@ class SteamLoginServiceProvider extends ServiceProvider {
      * @return array
      */
     public function provides() {
-        return array('theecmgroup\SteamLogin\SteamLogin');
+        return array('TheECMGroup\SteamLogin\SteamLogin');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace theecmgroup\SteamLogin;
+namespace TheECMGroup\SteamLogin;
 
 interface SteamLoginInterface {
 

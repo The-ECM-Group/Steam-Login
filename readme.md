@@ -11,7 +11,7 @@ Begin by installing this package via Composer:
 ```
 {
     "require": {
-		"ehesp/steam-login": "~1.0.1"
+		"theecmgroup/steam-login": "~1.1.0"
 	}
 }
 ```
@@ -25,7 +25,7 @@ If you're using the Laravel 4 PHP Framework, a service provider is available:
 // app/config/app.php
 'providers' => array(
 	'...',
-	'Ehesp\SteamLogin\Laravel\SteamLoginServiceProvider',
+	'TheECMGroup\SteamLogin\Laravel\SteamLoginServiceProvider',
 ),
 ```
 
@@ -34,7 +34,7 @@ If you're using the Laravel 4 PHP Framework, a service provider is available:
 // app/config/app.php
 'aliases' => array(
 	'...',
-	'SteamLogin' => 'Ehesp\SteamLogin\Laravel\Facades\SteamLogin',
+	'SteamLogin' => 'TheECMGroup\SteamLogin\Laravel\Facades\SteamLogin',
 ),
 ```
 You how have access to the `SteamLogin` facade.
@@ -51,7 +51,7 @@ Then, use the `SteamLogin` class and create a new instance of it:
 ```php
 <?php
 // login.php
-use Ehesp\SteamLogin\SteamLogin;
+use TheECMGroup\SteamLogin\SteamLogin;
 
 $login = new SteamLogin();
 echo $login->url();
@@ -62,7 +62,7 @@ Once authenticated, Steam will return to your website root with attached GET par
 ```php
 <?php
 // index.php
-use Ehesp\SteamLogin\SteamLogin;
+use TheECMGroup\SteamLogin\SteamLogin;
 
 $login = new SteamLogin();
 echo $login->validate();

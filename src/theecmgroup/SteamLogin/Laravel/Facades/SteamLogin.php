@@ -1,6 +1,6 @@
 <?php
 
-namespace theecmgroup\SteamLogin\Laravel\Facades;
+namespace TheECMGroup\SteamLogin\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

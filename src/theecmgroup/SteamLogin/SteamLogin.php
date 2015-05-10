@@ -1,6 +1,6 @@
 <?php
 
-namespace theecmgroup\SteamLogin;
+namespace TheECMGroup\SteamLogin;
 use Illuminate\Http\Request;
 
 use Exception;

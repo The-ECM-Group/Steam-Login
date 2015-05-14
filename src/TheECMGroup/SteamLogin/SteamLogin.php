@@ -1,7 +1,6 @@
 <?php
 
 namespace TheECMGroup\SteamLogin;
-use Illuminate\Http\Request;
 use Exception;
 
 class SteamLogin implements SteamLoginInterface {

@@ -11,7 +11,7 @@ Begin by installing this package via Composer:
 ```
 {
     "require": {
-		"theecmgroup/steam-login": "~1.1.0"
+		"the-ecm-group/steam-login": "~1.1.0"
 	}
 }
 ```

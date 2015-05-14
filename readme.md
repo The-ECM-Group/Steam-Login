@@ -2,7 +2,7 @@
 
 This package enables you to easily log users in via Steam, using their OpenID service. However, this package does not require that you have the OpenID PHP module installed!
 
-Note: The package can also easily be used with the Laravel 4 PHP Framework.
+Note: The package can also easily be used with the Laravel 5 PHP Framework.
 
 ## Installation
 

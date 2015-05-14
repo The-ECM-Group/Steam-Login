@@ -2,7 +2,6 @@
 
 namespace TheECMGroup\SteamLogin;
 use Illuminate\Http\Request;
-
 use Exception;
 
 class SteamLogin implements SteamLoginInterface {
@@ -15,20 +14,46 @@ class SteamLogin implements SteamLoginInterface {
     private static $openId = 'https://steamcommunity.com/openid/login';
     
     /**
-     * Request data class
+     * Laravel Request class
      * 
-     * @var Illuminate\Http\Request;
+     * @var Request 
      */
-    private $request;
+    private $lrequest;
     
+    public function __construct($app = NULL) {
+        if (!is_null($app)) {
+            $lrequest = $app->make('request');
+            $this->lrequest = $lrequest;
+        }
+    }
+    /**
+     * Gets the request data with laravel if it is in use, or filter_var if not.
+     * 
+     * @param string $varName
+     * @param int $flags
+     * @param any $default
+     * @return any
+     */
+    private function request($varName, $flags = NULL, $default = NULL) {
+        if (class_exists('\\Illuminate\\Http\\Request')) {
+            return $this->lrequest->input($varName, $default);
+        } else {
+            return filter_input(INPUT_GET, $varName, $flags);
+        }
+    }
     
     /**
-     * Inject Request dependency
+     * Return server information with laravel if it is in use, or filter_var if not.
      * 
-     * @param Request $request
+     * @param string $varName
+     * @return any
      */
-    public function __construct(Request $request) {
-        $this->request = $request;
+    private function server($varName) {
+        if (class_exists('\\Illuminate\\Http\\Request')) {
+            return $this->lrequest->server($varName);
+        } else {
+            return filter_var(isset($_SERVER[$varName]) ? $_SERVER[$varName] : NULL, FILTER_DEFAULT);
+        }
     }
     
     /**
@@ -56,14 +81,14 @@ class SteamLogin implements SteamLoginInterface {
                 throw new Exception('The return URL must be a valid URL with a URI Scheme or http or https.');
             }
         } else {
-            $return = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+            $return = (!empty($this->server('HTTPS')) ? 'https' : 'http') . '://' . $this->server('HTTP_HOST') . $this->server('SCRIPT_NAME');
         }
 
         $params = array(
             'openid.ns' => 'http://specs.openid.net/auth/2.0',
             'openid.mode' => 'checkid_setup',
             'openid.return_to' => $return,
-            'openid.realm' => (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'],
+            'openid.realm' => (!empty($this->server('HTTPS')) ? 'https' : 'http') . '://' . $this->server('HTTP_HOST'),
             'openid.identity' => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         );
@@ -81,16 +106,16 @@ class SteamLogin implements SteamLoginInterface {
 
         try {
             $params = array(
-                'openid.assoc_handle' => $this->request->input('openid_assoc_handle'),
-                'openid.signed' => $this->request->input('openid_signed'),
-                'openid.sig' => $this->request->input('openid_sig'),
+                'openid.assoc_handle' => $this->request('openid_assoc_handle'),
+                'openid.signed' => $this->request('openid_signed'),
+                'openid.sig' => $this->request('openid_sig'),
                 'openid.ns' => 'http://specs.openid.net/auth/2.0',
             );
 
-            $signed = explode(',', $this->request->input('openid_signed'));
+            $signed = explode(',', $this->request('openid_signed'));
 
             foreach ($signed as $item) {
-                $val = $this->request->input('openid_' . str_replace('.', '_', $item));
+                $val = $this->request('openid_' . str_replace('.', '_', $item));
                 $params['openid.' . $item] = get_magic_quotes_gpc() ? stripslashes($val) : $val;
             }
 
@@ -111,7 +136,7 @@ class SteamLogin implements SteamLoginInterface {
 
             $result = file_get_contents(self::$openId, false, $context);
 
-            preg_match("#^http://steamcommunity.com/openid/id/([0-9]{17,25})#", $this->request->input('openid_claimed_id'), $matches);
+            preg_match("#^http://steamcommunity.com/openid/id/([0-9]{17,25})#", $this->request('openid_claimed_id'), $matches);
 
             $steamID64 = is_numeric($matches[1]) ? $matches[1] : 0;
 
@@ -126,5 +151,4 @@ class SteamLogin implements SteamLoginInterface {
 
         return $response;
     }
-
 }

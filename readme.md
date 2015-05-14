@@ -18,7 +18,7 @@ Begin by installing this package via Composer:
 
 ### Laravel Users
 
-If you're using the Laravel 4 PHP Framework, a service provider is available:
+If you're using the Laravel 5 PHP Framework, a service provider is available:
 
 ```php
 <?php

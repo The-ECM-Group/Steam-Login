@@ -12,7 +12,7 @@ class SteamLogin extends Facade {
      * @return string
      */
     protected static function getFacadeAccessor() {
-        return 'steamlogin';
+        return 'SteamLogin';
     }
 
 }

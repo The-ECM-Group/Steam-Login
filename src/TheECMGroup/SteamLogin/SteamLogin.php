@@ -19,10 +19,14 @@ class SteamLogin implements SteamLoginInterface {
      */
     private $lrequest;
     
+    private $llog;
+    
     public function __construct($app = NULL) {
         if (!is_null($app)) {
             $lrequest = $app->make('request');
             $this->lrequest = $lrequest;
+            
+            $this->llog = $app->make('log');
         }
     }
     /**
@@ -142,6 +146,7 @@ class SteamLogin implements SteamLoginInterface {
             $response = preg_match("#is_valid\s*:\s*true#i", $result) == 1 ? $steamID64 : null;
         } catch (Exception $e) {
             $response = null;
+            $this->llog->error($e);
         }
 
         if (is_null($response)) {
